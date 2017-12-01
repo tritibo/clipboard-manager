@@ -4,7 +4,8 @@
   "description": "Osx clipboard manager",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "export CSC_IDENTITY_AUTO_DISCOVERY=false; electron-builder --mac"
   },
   "keywords": [
     "Clipbord"
@@ -12,10 +13,12 @@
   "author": "Luca",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "~1.7.8"
+    "electron": "~1.7.8",
+    "electron-builder": "^19.47.1",
+    "electron-rebuild": "^1.6.0"
   },
   "dependencies": {
-    "electron-rebuild": "^1.6.0",
+    "auto-launch": "^5.0.3",
     "mkdirp": "^0.5.1",
     "nedb": "^1.8.0",
     "robotjs": "^0.4.7"

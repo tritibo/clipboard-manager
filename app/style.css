@@ -4,6 +4,12 @@
   font-weight: 400;
   src: url('fonts/roboto-v18-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
 }
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  src: url('fonts/roboto-v18-latin-300.woff2') format('woff2'), /* Super Modern Browsers */
+}
 body {
   font-family: 'Roboto';
   color: #4E4E4E;
@@ -21,7 +27,7 @@ cm-table {
   padding: 10px;
   overflow: auto;
   position: absolute;
-  top: 0;
+  top: 40px;
   bottom: 0;
   left: 0;
   right: 0;
@@ -32,8 +38,10 @@ cm-table {
   background: white;
   padding: 6px;
   margin: 4px;
-  box-shadow: -3px 0 4px 0 rgba(0,0,0,0.08);
+  min-height: 20px;
+  box-shadow: 0 2px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14);
   border-left: 2px solid white;
+  transition: 100ms ease-in;
 }
 .TableElement.Active {
   border-left-color: #3F51B5;
@@ -45,4 +53,54 @@ cm-table {
   flex: 1;
   max-height: 44px;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
+  padding-right: 10px;
+  word-break: break-word;
+  cursor: pointer;
+  font-weight: 300;
+}
+.TableElement:hover .Menu, .TableElement.MenuOpen .Menu {
+  position: absolute;
+  right: 0px;
+  height: 100%;
+  width: 16px;
+  top: -50%;
+  background: url(img/menu.png) no-repeat center;
+  transform: translateY(50%);
+  background-color: white;
+  background-size: auto 16px;
+  cursor: pointer;
+}
+.TableElement .DeleteItem {
+  display: none;
+}
+.TableElement.MenuOpen .DeleteItem {
+  position: absolute;
+  display: block;
+  right: -30px;
+  height: 100%;
+  width: 24px;
+  top: -50%;
+  transform: translateY(50%);
+  cursor: pointer;
+  background: url(img/trash.png) no-repeat center;
+  background-size: 50%;
+}
+.TableElement.MenuOpen {
+  transform: translateX(-30px);
+}
+.Search {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+}
+.Search input {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 14px;
+  outline: none;
 }

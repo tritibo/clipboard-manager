@@ -6,6 +6,7 @@ class KeyboardScroll {
   }
   
   setItems(items) {
+    this.element.scrollTop = 0;
     this.selectedIndex = -1;
     this.items = items;
   }
@@ -36,14 +37,14 @@ class KeyboardScroll {
      const height = document.documentElement.clientHeight;
  
      if (index > 0) {
-       const bottom = activatedElement.getBoundingClientRect().bottom + this.element.scrollTop + 20;
+       const bottom = activatedElement.getBoundingClientRect().bottom + 20;
        if (bottom > height) {
-         this.element.scrollTop = bottom - height;
+         this.element.scrollTop = bottom + this.element.scrollTop - height;
        }
      } else {
        const top = activatedElement.getBoundingClientRect().top;
-       if (top < 0) {
-         this.element.scrollTop = top + this.element.scrollTop - 20;
+       if (top < 40) {
+         this.element.scrollTop = top + this.element.scrollTop - 60;
        }
      }
    }

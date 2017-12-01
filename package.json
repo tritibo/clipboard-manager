@@ -1,0 +1,23 @@
+{
+  "name": "clipboard-manager",
+  "version": "1.0.0",
+  "description": "Osx clipboard manager",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [
+    "Clipbord"
+  ],
+  "author": "Luca",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "~1.7.8"
+  },
+  "dependencies": {
+    "electron-rebuild": "^1.6.0",
+    "mkdirp": "^0.5.1",
+    "nedb": "^1.8.0",
+    "robotjs": "^0.4.7"
+  }
+}

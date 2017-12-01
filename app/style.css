@@ -1,0 +1,48 @@
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  src: url('fonts/roboto-v18-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
+}
+body {
+  font-family: 'Roboto';
+  color: #4E4E4E;
+}
+main {
+  background-color: #F7F8F8;
+  margin: 0 10px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+cm-table {
+  padding: 10px;
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.TableElement {
+  font-size: 12px;
+  display: flex;
+  background: white;
+  padding: 6px;
+  margin: 4px;
+  box-shadow: -3px 0 4px 0 rgba(0,0,0,0.08);
+  border-left: 2px solid white;
+}
+.TableElement.Active {
+  border-left-color: #3F51B5;
+}
+.TableElement .Shortcut {
+  width: 20px;
+}
+.TableElement .Text {
+  flex: 1;
+  max-height: 44px;
+  overflow: hidden;
+}

@@ -6,28 +6,31 @@ window.customElements.define('cm-table', class extends HTMLElement {
       if (event.key >= "1" && event.key <= "9") {
         const index = event.key - 1;
         if (index < this.items.length) {
-          this.dispatchEvent(new CustomEvent('fast-select', {detail: this.items[index].text}));
+          const item = this.items[index];
+          if (!item.deleted) {
+            this.dispatchEvent(new CustomEvent('fast-select', {detail: item}));
+          }
         }
       } else if (event.key === 'Enter') {
-        this.selectRow(this.items[this.keyboardScroll.selectedIndex].text);        
+        this.selectRow(this.items[this.keyboardScroll.selectedIndex]);        
       }
     });
     this.keyboardScroll = new KeyboardScroll(this, '.TableElement');
   }
 
-  selectRow(text) {
-    this.dispatchEvent(new CustomEvent('select', {detail: text}));            
+  selectRow(item) {
+    this.dispatchEvent(new CustomEvent('select', {detail: item}));            
   }
   
-  populate(data) {
+  populate(data, filter) {
     this.innerHTML = null;
     let index = 1;
     this.items = data;
     this.keyboardScroll.setItems(data);
-    data.forEach(item => this.createRow(item, index++));
+    data.forEach(item => this.createRow(item, index++, filter));
   }
 
-  createRow(item, index) {
+  createRow(item, index, filter) {
     const row = document.createElement('div');
 
     row.onclick = () => this.selectRow(item.text);
@@ -44,6 +47,14 @@ window.customElements.define('cm-table', class extends HTMLElement {
     text.classList.add('Text');
     text.innerText = item.text;
     row.appendChild(text);
+
+    if (filter) {
+      const html = text.innerHTML;
+      const index = html.toUpperCase().indexOf(filter.toUpperCase());
+      if (~index) {
+        text.innerHTML = html.substring(0, index) + '<span class="ht">' + html.substring(index, index + filter.length) + '</span>' + html.substring(index + filter.length);
+      }
+    }
 
     this.createMenu(row, text, item);
     this.appendChild(row);
@@ -67,7 +78,8 @@ window.customElements.define('cm-table', class extends HTMLElement {
     del.title = 'Remove';
     del.onclick = (event) =>  {
       event.stopPropagation();
-      this.dispatchEvent(new CustomEvent('delete', {detail: item._id}));
+      item.deleted = true;
+      this.dispatchEvent(new CustomEvent('delete', {detail: {_id: item._id, file: item.file}}));
       row.remove();
     }    
     row.appendChild(del);

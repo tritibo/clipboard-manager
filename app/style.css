@@ -61,6 +61,9 @@ cm-table {
   cursor: pointer;
   font-weight: 300;
 }
+.TableElement .Text .ht {
+  background: #ffeb66;
+}
 .TableElement:hover .Menu, .TableElement.MenuOpen .Menu {
   position: absolute;
   right: 0px;
@@ -104,4 +107,10 @@ cm-table {
   box-sizing: border-box;
   padding-left: 14px;
   outline: none;
+  background: url(img/search.png) left center no-repeat;
+  background-size: 16px;
+  background-position: 14px;
+  padding-left: 36px;
+  background-color: white;
+  border: none;
 }

@@ -2,6 +2,7 @@ const {app, BrowserWindow, globalShortcut, ipcMain, clipboard, Menu} = require('
 const electron = require('electron');
 const path = require('path');
 const url = require('url');
+const fs = require('fs');
 const robot = require("robotjs");
 const ClipboardWatcher = require('./util/clipboard-watcher');
 const db = require('./util/db');
@@ -49,7 +50,7 @@ function createWindow() {
   }))
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools({mode: 'undocked'});
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -79,12 +80,16 @@ ipcMain.on('pageready', () => {
 });
 
 ipcMain.on('filter', (event, data) => {
-  db.filter(data.input).then(rows => mainWindow.webContents.send('data-filter', rows));
+  db.filter(data.input).then(rows => mainWindow.webContents.send('data-filter', {rows: rows, filter: data.input}));
 });
 
 ipcMain.on('select', (event, data) => {
   hide();
-  clipboard.writeText(data.text);
+  if (data.file) {
+    clipboard.writeText(fs.readFileSync(data.file).toString());
+  } else {
+    clipboard.writeText(data.text);
+  }
   setTimeout(() => {
     robot.keyTap('v', 'command');
   }, 100)

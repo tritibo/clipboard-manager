@@ -6,7 +6,8 @@ const searchField = document.getElementById('search');
 
 window.addEventListener('keydown', (event) => {
   const checkTarget = event.target !== searchField && !searchField.vlaue;
-  if (checkTarget && !(event.key >= "1" && event.key <= "9") && event.key.length === 1) {
+  const checkEvent = event.key.length === 1 || event.key === 'Backspace';
+  if (checkTarget && !(event.key >= "1" && event.key <= "9") && checkEvent) {
     searchField.focus();  
   }
 });
@@ -21,12 +22,12 @@ ipcRenderer.on('data', function (event, data) {
 });
 
 ipcRenderer.on('data-filter', function (event, data) {
-  table.populate(data);
+  table.populate(data.rows, data.filter);
 });
 
 table.addEventListener('select',  (event) => select(event.detail));
 
-table.addEventListener('delete',  (event) => ipcRenderer.send('delete', {_id: event.detail}));
+table.addEventListener('delete',  (event) => ipcRenderer.send('delete', {_id: event.detail._id, file: event.detail.file}));
 
 table.addEventListener('fast-select', (event) => {
   if (document.activeElement !== searchField) {
@@ -48,9 +49,8 @@ window.addEventListener('keydown', (event) => {
   }
 });
 
-function select(text) {
+function select(item) {
   searchField.value = null;
-  ipcRenderer.send('select', {
-    text: text
-  });
+  ipcRenderer.send('select', item);
 }
+

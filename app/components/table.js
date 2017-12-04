@@ -33,7 +33,7 @@ window.customElements.define('cm-table', class extends HTMLElement {
   createRow(item, index, filter) {
     const row = document.createElement('div');
 
-    row.onclick = () => this.selectRow(item.text);
+    row.onclick = () => this.selectRow(item);
 
     row.classList.add('TableElement');
     const shortcut = document.createElement('div');

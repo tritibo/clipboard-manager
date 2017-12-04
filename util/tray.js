@@ -1,9 +1,9 @@
-const electron = require('electron');
+const {dialog, app, Menu, Tray} = require('electron');
 const AutoLaunch = require('auto-launch');
 const path = require('path')
 
 let tray;
-let currentStartupStatus = electron.app.getLoginItemSettings().openAtLogin;
+let currentStartupStatus = app.getLoginItemSettings().openAtLogin;
 
 function buildTrayMenu(actions) {
   const trayItems = [{
@@ -17,17 +17,29 @@ function buildTrayMenu(actions) {
     checked: currentStartupStatus
   }, {
     label: 'Clear history',
-    click: actions.clearHistory
+    click: clearHistory.bind(undefined, actions.clearHistory)
   }, {
     label: 'Quit',
     accelerator: 'CommandOrControl+Q',
-    click: electron.app.exit
+    click: app.exit
   }]
-  const contextMenu = electron.Menu.buildFromTemplate(trayItems);
+  const contextMenu = Menu.buildFromTemplate(trayItems);
   if (!tray) {
-    tray = new electron.Tray(path.join(__dirname, '..', 'icon.png'));
+    tray = new Tray(path.join(__dirname, '..', 'icon.png'));
   }
   tray.setContextMenu(contextMenu);
+}
+
+function clearHistory(cb) {
+  dialog.showMessageBox({
+    title: 'Clear history',
+    message: 'Are you sure?',
+    buttons: ['Yes', 'No']
+  }, (btn) => {
+    if (btn === 0) {
+      cb();
+    }
+  });
 }
 
 function toggleRunStartup() {

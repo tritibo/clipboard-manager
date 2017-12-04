@@ -1,4 +1,5 @@
 const {app, BrowserWindow, globalShortcut, ipcMain, clipboard, Menu} = require('electron');
+const electron = require('electron');
 const path = require('path');
 const url = require('url');
 const robot = require("robotjs");
@@ -14,8 +15,14 @@ if (app.makeSingleInstance(() => {})) {
 
 function init() {
   globalShortcut.register('CommandOrControl+Shift+V', show);
+  globalShortcut.register('CommandOrControl+;', show);
   createWindow();
   whatchForClipboard();
+
+  tray.buildTrayMenu({
+    show,
+    clearHistory
+  });
 }
 
 function createWindow() {
@@ -32,11 +39,6 @@ function createWindow() {
   hide();
   mainWindow.on('blur', () => hide());
   app.dock.hide()
-
-  tray.buildTrayMenu({
-    show,
-    clearHistory
-  });
 
 
   // and load the index.html of the app.
@@ -91,6 +93,15 @@ ipcMain.on('select', (event, data) => {
 ipcMain.on('delete', (event, data) => db.remove(data));
 
 function show() {
+  const currentDisplay = electron.screen.getDisplayNearestPoint(electron.screen.getCursorScreenPoint());
+  const x = currentDisplay.bounds.x + currentDisplay.bounds.width / 2 - 150;
+  const y = currentDisplay.bounds.y + currentDisplay.bounds.height / 2 - 200;
+  mainWindow.setBounds({
+    width: 300,
+    height: 400,
+    x: x,
+    y: y
+  });
   mainWindow.show();
   mainWindow.webContents.send('page-show');
 }

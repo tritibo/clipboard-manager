@@ -12,7 +12,9 @@ window.customElements.define('cm-table', class extends HTMLElement {
           }
         }
       } else if (event.key === 'Enter') {
-        this.selectRow(this.items[this.keyboardScroll.selectedIndex]);        
+        if (this.keyboardScroll.selectedIndex > 0) {
+          this.selectRow(this.items[this.keyboardScroll.selectedIndex]);
+        }
       }
     });
     this.keyboardScroll = new KeyboardScroll(this, '.TableElement');

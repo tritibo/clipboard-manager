@@ -35,12 +35,13 @@ function createWindow() {
     fullscreenable: false,
     resizable: false,
     transparent: true
-  })
+  });
 
+  mainWindow.setVisibleOnAllWorkspaces(true);  
+  
   hide();
   mainWindow.on('blur', () => hide());
   app.dock.hide()
-
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({

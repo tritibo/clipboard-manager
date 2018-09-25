@@ -1,4 +1,4 @@
-const {dialog, app, Menu, Tray} = require('electron');
+const {dialog, app, Menu, Tray, nativeImage} = require('electron');
 const AutoLaunch = require('auto-launch');
 const path = require('path')
 
@@ -24,7 +24,7 @@ function buildTrayMenu(actions) {
     click: app.exit
   }]
   const contextMenu = Menu.buildFromTemplate(trayItems);
-  const nativeImage = require('electron').nativeImage;
+
   var image = nativeImage.createFromPath(path.join(__dirname, '..', 'icon.png'));
   image.setTemplateImage(true);
   if (!tray) {

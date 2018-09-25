@@ -24,8 +24,11 @@ function buildTrayMenu(actions) {
     click: app.exit
   }]
   const contextMenu = Menu.buildFromTemplate(trayItems);
+  const nativeImage = require('electron').nativeImage;
+  var image = nativeImage.createFromPath(path.join(__dirname, '..', 'icon.png'));
+  image.setTemplateImage(true);
   if (!tray) {
-    tray = new Tray(path.join(__dirname, '..', 'icon.png'));
+    tray = new Tray(image);
   }
   tray.setContextMenu(contextMenu);
 }

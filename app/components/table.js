@@ -12,7 +12,7 @@ window.customElements.define('cm-table', class extends HTMLElement {
           }
         }
       } else if (event.key === 'Enter') {
-        if (this.keyboardScroll.selectedIndex > 0) {
+        if (this.keyboardScroll.selectedIndex >= 0) {
           this.selectRow(this.items[this.keyboardScroll.selectedIndex]);
         }
       }
@@ -21,9 +21,9 @@ window.customElements.define('cm-table', class extends HTMLElement {
   }
 
   selectRow(item) {
-    this.dispatchEvent(new CustomEvent('select', {detail: item}));            
+    this.dispatchEvent(new CustomEvent('select', {detail: item}));
   }
-  
+
   populate(data, filter) {
     this.innerHTML = null;
     let index = 1;
@@ -83,7 +83,7 @@ window.customElements.define('cm-table', class extends HTMLElement {
       item.deleted = true;
       this.dispatchEvent(new CustomEvent('delete', {detail: {_id: item._id, file: item.file}}));
       row.remove();
-    }    
+    }
     row.appendChild(del);
   }
 });
